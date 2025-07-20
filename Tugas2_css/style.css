@@ -1,0 +1,138 @@
+html {
+scroll-behavior: smooth;
+}
+* {
+margin: 0;
+padding: 0;
+box-sizing: border-box;
+}
+body {
+font-family: Arial, sans-serif;
+background-color: #f4f7fc;
+color: #333;
+line-height: 1.6;
+}
+.menu {
+display: flex;
+justify-content: center;
+background-color: #003366;
+padding: 10px;
+flex-wrap: wrap;
+}
+.menu a {
+margin: 10px 20px;
+color: #fff;
+font-weight: bold;
+text-decoration: none;
+transition: color 0.3s;
+}
+.menu a:hover {
+color: #ffcc00;
+}
+.header {
+display: flex;
+flex-wrap: wrap;
+justify-content: space-around;
+align-items: center;
+padding: 40px 20px;
+background-color: #e6f0ff;
+text-align: center;
+}
+.header-text {
+flex: 1;
+max-width: 500px;
+}
+.header-text h2 {
+color: #003366;
+margin-bottom: 15px;
+}
+.header-text p {
+margin-bottom: 20px;
+}
+.header-text button {
+padding: 10px 20px;
+background-color: #003366;
+color: white;
+border: none;
+border-radius: 5px;
+cursor: pointer;
+}
+.header-text button:hover {
+background-color: #0055aa;
+}
+.header img {
+width: 300px;
+border-radius: 10px;
+box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+}
+.biodata {
+text-align: center;
+padding: 40px 20px;
+}
+.biodata h3 {
+margin-bottom: 30px;
+color: #003366;
+}
+.bio-grid {
+display: grid;
+grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+gap: 20px;
+max-width: 1000px;
+margin: auto;
+}
+.bio-card {
+background-color: #fff;
+padding: 20px;
+border-radius: 8px;
+box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+}
+.bio-card b {
+display: block;
+color: #003366;
+margin-bottom: 5px;
+}
+.portofolio {
+text-align: center;
+padding: 40px 20px;
+background-color: #f0f8ff;
+}
+.portofolio h3 {
+margin-bottom: 30px;
+color: #003366;
+}
+.porto-grid {
+display: grid;
+grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+gap: 30px;
+max-width: 1000px;
+margin: auto;
+}
+.porto-card {
+background-color: #fff;
+padding: 20px;
+border-radius: 8px;
+box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+}
+.porto-card img {
+width: 100%;
+border-radius: 8px;
+margin-bottom: 15px;
+}
+.porto-card b {
+display: block;
+color: #003366;
+margin-bottom: 10px;
+}
+@media (max-width: 600px) {
+.header {
+flex-direction: column;
+}
+.header img {
+width: 90%;
+margin-top: 20px;
+}
+.menu {
+flex-direction: column;
+align-items: center;
+}
+}
