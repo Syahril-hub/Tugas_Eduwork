@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Etalase Produk Bootstrap 5</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" />
+</head>
+<body>
+  <div class="container my-5">
+    <h1 class="mb-4 text-center">Etalase Produk</h1>
+
+    <div class="row g-3 mb-4">
+      <div class="col-md-4">
+        <label for="filterKategori" class="form-label">Filter Kategori</label>
+        <select id="filterKategori" class="form-select">
+          <option value="all">Semua Kategori</option>
+        </select>
+      </div>
+      <div class="col-md-4">
+        <label for="sortHarga" class="form-label">Urutkan Harga</label>
+        <select id="sortHarga" class="form-select">
+          <option value="none">Default</option>
+          <option value="asc">Terendah ke Tertinggi</option>
+          <option value="desc">Tertinggi ke Terendah</option>
+        </select>
+      </div>
+      <div class="col-md-4">
+        <label for="cariNama" class="form-label">Cari Nama Produk</label>
+        <input type="text" id="cariNama" class="form-control" placeholder="Masukkan nama..." />
+      </div>
+    </div>
+
+    <div id="gridProduk" class="row row-cols-1 row-cols-md-3 g-4"></div>
+  </div>
+
+  <script>
+    const produk = [
+      {nama: 'Kopi Arabika', deskripsi: 'Kopi pilihan dari dataran tinggi, aroma khas dan rasa lembut.', harga: 75000, gambar: 'https://images.unsplash.com/photo-1511920170033-f8396924c348', kategori: 'Minuman'},
+      {nama: 'Notebook Kulit', deskripsi: 'Buku catatan elegan dengan sampul kulit asli.', harga: 120000, gambar: 'https://images.unsplash.com/photo-1519681393784-d120267933ba', kategori: 'Alat Tulis'},
+      {nama: 'Headphone Wireless', deskripsi: 'Suara jernih tanpa kabel, nyaman digunakan lama.', harga: 450000, gambar: 'https://images.unsplash.com/photo-1512058564366-c9e3e0467e7d', kategori: 'Elektronik'},
+      {nama: 'Pulpen Eksklusif', deskripsi: 'Pulpen dengan tinta halus dan desain premium.', harga: 25000, gambar: 'https://images.unsplash.com/photo-1588776814546-87e376563779', kategori: 'Alat Tulis'},
+      {nama: 'Tea Set', deskripsi: 'Paket teh dan cangkir premium untuk momen spesial.', harga: 180000, gambar: 'https://images.unsplash.com/photo-1571687949920-c0c5e90b6d69', kategori: 'Minuman'},
+      {nama: 'Powerbank 10000mAh', deskripsi: 'Cadangan daya kecil tapi kuat untuk bepergian.', harga: 90000, gambar: 'https://images.unsplash.com/photo-1583225064825-4c5f3f9835db', kategori: 'Elektronik'},
+      {nama: 'Tas Kanvas', deskripsi: 'Tas ramah lingkungan, tahan lama untuk aktivitas sehari-hari.', harga: 80000, gambar: 'https://images.unsplash.com/photo-1585386959984-a4155224a1c6', kategori: 'Aksesori'},
+      {nama: 'Kacamata Hitam', deskripsi: 'Pelindung mata dari sinar UV dengan gaya modern.', harga: 150000, gambar: 'https://images.unsplash.com/photo-1495707902735-5f31c0b98d7b', kategori: 'Aksesori'}
+    ];
+
+    function isiFilterKategori() {
+      const select = document.getElementById('filterKategori');
+      const kategoriUnik = Array.from(new Set(produk.map(p => p.kategori))).sort();
+      kategoriUnik.forEach(k => {
+        const opt = document.createElement('option');
+        opt.value = k;
+        opt.textContent = k;
+        select.appendChild(opt);
+      });
+    }
+
+    function formatRupiah(n) {
+      return 'Rp ' + n.toString().replace(/\B(?=(\d{3})+(?!\d))/g, '.');
+    }
+
+    function renderProduk() {
+      const container = document.getElementById('gridProduk');
+      const kategori = document.getElementById('filterKategori').value;
+      const sort = document.getElementById('sortHarga').value;
+      const keyword = document.getElementById('cariNama').value.toLowerCase().trim();
+
+      let daftar = produk.slice();
+
+      if (kategori !== 'all') {
+        daftar = daftar.filter(p => p.kategori === kategori);
+      }
+      if (keyword !== '') {
+        daftar = daftar.filter(p => p.nama.toLowerCase().includes(keyword));
+      }
+      if (sort === 'asc') {
+        daftar.sort((a,b) => a.harga - b.harga);
+      } else if (sort === 'desc') {
+        daftar.sort((a,b) => b.harga - a.harga);
+      }
+
+      container.innerHTML = '';
+
+      if (daftar.length === 0) {
+        container.innerHTML = '<div class="col"><div class="alert alert-warning">Tidak ada produk sesuai kriteria.</div></div>';
+        return;
+      }
+
+      daftar.forEach(p => {
+        const col = document.createElement('div');
+        col.className = 'col';
+        col.innerHTML = `
+          <div class="card h-100">
+            <img src="${p.gambar}?auto=format&fit=crop&w=500&q=80" class="card-img-top" alt="${p.nama}">
+            <div class="card-body d-flex flex-column">
+              <h5 class="card-title">${p.nama}</h5>
+              <p class="card-text flex-grow-1">${p.deskripsi}</p>
+              <div class="d-flex justify-content-between align-items-center mt-2">
+                <span class="fw-bold">${formatRupiah(p.harga)}</span>
+                <span class="badge bg-secondary">${p.kategori}</span>
+              </div>
+            </div>
+          </div>
+        `;
+        container.appendChild(col);
+      });
+    }
+
+    document.getElementById('filterKategori').addEventListener('change', renderProduk);
+    document.getElementById('sortHarga').addEventListener('change', renderProduk);
+    document.getElementById('cariNama').addEventListener('input', renderProduk);
+
+    isiFilterKategori();
+    renderProduk();
+  </script>
+  
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
